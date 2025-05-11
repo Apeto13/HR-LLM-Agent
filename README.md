@@ -15,12 +15,20 @@ This basically takes in an cv from candidate and turn their information into str
 python -m venv env
 ```
 
-4- download all the dependency from the requirements.txt file
+4- Activate the virtual environment
+
+``` bash 
+env\Scripts\activate
+```
+
+`NOTE: creating a virtual environment in python for macOS and linux is different` here is a [link](https://gist.github.com/MichaelCurrin/3a4d14ba1763b4d6a1884f56a01412b7)
+
+5- Download all the dependency from the requirements.txt file
 ``` bash
 pip install -r requirements.txt
 ```
 
-5- And then run the main
+6- And then run the main
 ```
 python python main.py
 ```
