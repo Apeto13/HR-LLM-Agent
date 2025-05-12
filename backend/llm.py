@@ -16,6 +16,7 @@ def llm_call(text: str, model: str = "deepseek-r1-distill-llama-70b") -> str:
     return response.choices[0].message.content
 
 def parse_llm_to_json(llm_output: str) -> dict:
+    cleaned = re.sub(r'<think>.*?</think>', '', llm_output, flags=re.DOTALL)
     cleaned = re.sub(r'^```(?:json)?\s*', '', llm_output.strip(), flags=re.IGNORECASE)
     cleaned = re.sub(r'\s*```$', '', cleaned, flags=re.IGNORECASE)
 

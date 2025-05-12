@@ -2,10 +2,6 @@ import pandas as pd
 from PyPDF2 import PdfReader
 import re
 
-def cleaning_llm(text: str) -> str: # TODO: This function should return the json -> ```json <json> ```
-    cleaned = re.sub(r'<think>.*?</think>', '', text, flags=re.DOTALL)
-    return cleaned
-
 def extract_text_from_pdf(pdf_path) -> str:
     """Extract text from all pages of the PDF file."""
     reader = PdfReader(pdf_path)
