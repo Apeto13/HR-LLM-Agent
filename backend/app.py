@@ -3,11 +3,17 @@ import json
 from flask import Flask, request, render_template, redirect, url_for, flash, send_file
 from backend.llm import llm_call, parse_llm_to_json
 from backend.file_processor import extract_text_from_pdf, save_to_excel
+from pathlib import Path
 
-ui_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'UI'))
+PROJECT_ROOT = Path(__file__).resolve().parent.parent 
+BASE_UI = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'UI'))
+
 app = Flask(
     __name__,
-    template_folder = ui_path)
+    template_folder = os.path.join(BASE_UI, 'templates'),
+    static_folder=os.path.join(BASE_UI, 'scripts'),
+    # static_url_path = '/static' 
+    )
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 app.secret_key = 'your_secret_key'
 
@@ -34,13 +40,26 @@ def process_cv(pdf_path) -> None:
     save_to_excel(details)
     print("Excel file is Saved! ")
 
-@app.route("/download_excel")
+# @app.route("/download_excel", methods=["GET"])
+# def download_excel():
+#     root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+#     excel_path = os.path.join(root_dir, "candidates.xlsx")
+#     if os.path.exists(excel_path):
+#         return send_file(
+#             excel_path,
+#             as_attachment=True,
+#             download_name="candidates.xlsx"
+#         )
+#     else:
+#         flash("Excel file not found. Process a CV first.")
+#         return redirect(url_for("upload_cv"))
+
+@app.route("/download_excel", methods=["GET"])
 def download_excel():
-    root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-    excel_path = os.path.join(root_dir, "candidates.xlsx")
-    if os.path.exists(excel_path):
+    excel_path = PROJECT_ROOT / "candidates.xlsx"
+    if excel_path.exists():
         return send_file(
-            excel_path,
+            str(excel_path),
             as_attachment=True,
             download_name="candidates.xlsx"
         )
