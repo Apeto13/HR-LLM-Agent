@@ -1,4 +1,5 @@
 /.venv
+.env
 /backend/api_key.py
 /backend/__pycache__
 /uploads
